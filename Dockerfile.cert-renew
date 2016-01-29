@@ -1,0 +1,11 @@
+FROM alpine
+RUN apk add git openssl
+RUN git clone https://github.com/lukas2511/letsencrypt.sh.git le
+WORKDIR /le
+COPY ./hook.sh /le/hook.sh
+COPY ./config.sh /le/config.sh
+RUN mkdir /ssl
+VOLUME ["/ssl"]
+
+COPY ./cert-entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
